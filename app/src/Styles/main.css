@@ -1,0 +1,69 @@
+:root{
+    font-size: 62.5%;
+
+    /* ===== variables ===== */
+
+    /* color */
+    --color-bg:         #0A0A0C;
+    --color-surface:    #16161A;
+    --color-surface-2:  #1A1B26;
+
+    --color-primary:    #0D93F2;
+    --color-accent:     #00F2FF;
+
+    --color-success:    #22C55E;
+    --color-success-fg: #4ADE80;
+    --color-error:      #EF4444;
+
+    --color-text:         #D1D5DB;
+    --color-text-sub:     #9CA3AF;
+    --color-text-muted:   #6B7280;
+    --color-text-disabled:#4B5563;
+    --color-text-link:    #93C5FD;
+
+    /* thypography */
+    --font-family: 'Pretendard', sans-serif;
+
+    /* Spacing */
+    --width-container: 128rem;
+
+    /* Layout */
+
+    /* Border */
+
+    /* shadow */
+
+    /* animation */
+
+    /* z-index */
+
+    
+};
+
+.sr-only{
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    white-space: nowrap;
+    clip-path: inset(50%);
+    border: 0;
+}
+
+html, body, #root{
+    height: 100%;
+    width: 100%;
+}
+
+body{
+    font-family: var(--font-family);
+    background-color: var(--color-bg);
+}
+
+.container{
+    width: var(--width-container);
+    margin: 0 auto;
+    padding: 0 2.4rem;
+}
