@@ -8,14 +8,23 @@
     --color-surface:    #16161A;
     --color-surface-2:  #1A1B26;
 
-    --color-primary:    #0D93F2;
+    --color-bg-positive:    #0D93F2;
+    --color-bg-negative:    rgba(255,255,255,0.05);
+    --color-bg-negative-hover:    rgba(255,255,255,0.1);
+
     --color-accent:     #00F2FF;
+
+    --color-border-negative:rgba(255,255,255,0.1);
+    --color-border-negative-hover:rgba(255,255,255,0.1);
+
+    --color-outline-negative:rgba(255,255,255,0.5);
 
     --color-success:    #22C55E;
     --color-success-fg: #4ADE80;
     --color-error:      #EF4444;
 
-    --color-text:         #D1D5DB;
+    --color-text:         #FFFFFF;
+    --color-text-positive: #0D93F2;
     --color-text-sub:     #9CA3AF;
     --color-text-muted:   #6B7280;
     --color-text-disabled:#4B5563;
@@ -23,9 +32,22 @@
 
     /* thypography */
     --font-family: 'Pretendard', sans-serif;
+    
+    /* font size */
+    --font-size-sm: 1.4rem;
+    --font-size-md: 1.6rem;
+    --font-size-l: 1.8rem;
+    --font-size-xl: 2rem;
+
+    /* font weight */
+    --font-weight-medium: 400;
+    --font-weight-bold: 700;
 
     /* Spacing */
     --width-container: 128rem;
+
+    /* radius */
+    --border-radius: 0.4rem;
 
     /* Layout */
 
@@ -37,8 +59,8 @@
 
     /* z-index */
 
-    
-};
+
+}
 
 .sr-only{
     position: absolute;
