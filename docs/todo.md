@@ -1,0 +1,1 @@
+- [ ] React Router 도입 후 MainHeader signature(RACKLABS, MVP V1)의 `<a href="/">` 링크를 `<Link to="/">`로 갱신 ([MainHeader.jsx](../app/src/components/sections/MainHeader/MainHeader.jsx))
