@@ -1,9 +1,31 @@
 .section {
     width: 100%;
-    min-height: 100vh;
+    padding: 8rem 0;
     display: flex;
     justify-content: center;
-    align-items: center;
+    align-items: flex-start;
+}
+
+.layout {
+    width: var(--width-container);
+    padding: 0 2.4rem;
+    display: flex;
+    gap: 2.4rem;
+    align-items: flex-start;
+}
+
+/* Left column: settings panels (fixed width = Panel width) */
+.leftColumn {
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+    flex-shrink: 0;
+}
+
+/* Right column: viewer takes remaining space */
+.rightColumn {
+    flex: 1;
+    min-width: 0;
 }
 
 .panelContent {
