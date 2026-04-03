@@ -34,9 +34,9 @@
     color: var(--color-text-positive);
     letter-spacing: 0.12rem;
 
-    background-color: color-mix(in srgb, var(--color-bg-positive) 10% , transparent);
+    background-color: var(--color-bg-positive-10);
 
-    border: solid 1px color-mix(in srgb, var(--color-bg-positive) 30% , transparent);
+    border: solid 1px var(--color-bg-positive-30);
     border-radius: var(--border-radius-round);
 }
 

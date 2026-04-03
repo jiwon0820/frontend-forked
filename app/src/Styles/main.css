@@ -5,23 +5,17 @@
 
     /* color */
     --color-bg:         #0A0A0C;
-    --color-surface:    #16161A;
-    --color-surface-2:  #1A1B26;
-
     --color-bg-positive:    #0D93F2;
     --color-bg-negative:    rgba(255,255,255,0.05);
     --color-bg-negative-hover:    rgba(255,255,255,0.1);
 
-    --color-accent:     #00F2FF;
-
-    --color-border-negative:rgba(255,255,255,0.1);
-    --color-border-negative-hover:rgba(255,255,255,0.1);
-
-    --color-outline-negative:rgba(255,255,255,0.5);
+    --color-surface:    #16161A;
+    --color-surface-2:  #1A1B26;
 
     --color-success:    #22C55E;
     --color-success-fg: #4ADE80;
     --color-error:      #EF4444;
+    --color-accent:     #00F2FF;
 
     --color-text:         #FFFFFF;
     --color-text-positive: #0D93F2;
@@ -30,6 +24,35 @@
     --color-text-muted:   #6B7280;
     --color-text-disabled:#4B5563;
     --color-text-link:    #93C5FD;
+
+    --color-border-white-80: color-mix(in srgb, var(--color-bg-surface) 80% , transparent);
+    --color-border-negative:rgba(255,255,255,0.1);
+    --color-border-negative-hover:rgba(255,255,255,0.1);
+
+    --color-outline-negative:rgba(255,255,255,0.5);
+
+    /* opacity tokens (from Figma SVG) */
+    /* bg fill */
+    --color-bg-positive-5:   color-mix(in srgb, var(--color-bg-positive)  5%, transparent);
+    --color-bg-positive-10:  color-mix(in srgb, var(--color-bg-positive) 10%, transparent);
+    --color-bg-positive-20:  color-mix(in srgb, var(--color-bg-positive) 20%, transparent);
+    --color-bg-positive-30:  color-mix(in srgb, var(--color-bg-positive) 30%, transparent);
+    --color-bg-white-5:      color-mix(in srgb, white  5%, transparent);
+    --color-bg-white-10:     color-mix(in srgb, white 10%, transparent);
+    --color-bg-surface-50:   color-mix(in srgb, var(--color-surface) 50%, transparent);
+    --color-bg-surface-80:   color-mix(in srgb, var(--color-surface) 80%, transparent);
+    --color-bg-black-20:     color-mix(in srgb, black 20%, transparent);
+    --color-bg-black-30:     color-mix(in srgb, black 30%, transparent);
+    --color-bg-black-40:     color-mix(in srgb, black 40%, transparent);
+    --color-bg-success-20:   color-mix(in srgb, var(--color-success) 20%, transparent);
+
+    /* border stroke */
+    --color-border-positive-20: color-mix(in srgb, var(--color-bg-positive) 20%, transparent);
+    --color-border-positive-30: color-mix(in srgb, var(--color-bg-positive) 30%, transparent);
+    --color-border-positive-50: color-mix(in srgb, var(--color-bg-positive) 50%, transparent);
+    --color-border-white-5:     color-mix(in srgb, white  5%, transparent);
+    --color-border-white-10:    color-mix(in srgb, white 10%, transparent);
+    --color-border-white-20:    color-mix(in srgb, white 20%, transparent);
 
     /* thypography */
     --font-family: 'Pretendard', sans-serif;
