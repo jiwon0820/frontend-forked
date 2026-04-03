@@ -31,10 +31,13 @@ App
 ### 현재 구현 완료
 | 컴포넌트 | 경로 | 상태 |
 |---|---|---|
-| Button | components/Button/Button.jsx | ✅ |
+| Button | components/Button/Button.jsx | ✅ disabled prop 포함 |
 | Panel | components/Panel/Panel.jsx | ✅ |
+| VideoUpload | components/VideoUpload/VideoUpload.jsx | ✅ 선택 완료 상태 포함 |
+| FpsSelector | components/FpsSelector/FpsSelector.jsx | ✅ |
 | MainHeader | components/sections/MainHeader | ✅ |
 | HeroSection | components/sections/HeroSection | ✅ |
+| CoreDemoSection | components/sections/CoreDemoSection | ✅ |
 | Footer | components/sections/Footer | 껍데기만 존재 |
 
 ## 상태 타입
@@ -58,9 +61,10 @@ store shape:
 - api/ 함수는 store를 직접 건드리지 않음. 컴포넌트에서 호출 후 store에 set
 
 ## 지금 할 작업
-CoreDemoSection 마크업 구현 (브랜치: 1-feature-frontend-first-markup)
+다음 단계: Zustand store 연결 및 API 통신 구현 (브랜치: 1-feature-frontend-first-markup)
 
-- [ ] VideoUpload 컴포넌트 — 드래그&드롭 영역, 파일 선택 (Figma: Analysis Settings 패널 상단)
-- [ ] FpsSelector 컴포넌트 — 30 / 60 / 120 FPS 토글 버튼 그룹
-- [ ] CoreDemoSection 섹션 조립 — Panel + VideoUpload + FpsSelector + Button
-- [ ] App.jsx에 CoreDemoSection 연결
+- [ ] Zustand store 설정 — `AnalysisStatus` 상태 및 store shape 구현
+- [ ] `api/` 모듈 작성 — upload, polling, results fetch
+- [ ] CoreDemoSection에서 store 연결 — `handleStartAnalysis` 로직 구현
+- [ ] SkeletonViewer 컴포넌트 — `status === 'done'` 시 스켈레톤 렌더링
+- [ ] DataInsightSection — AnalysisBoard, LLM 피드백 표시
