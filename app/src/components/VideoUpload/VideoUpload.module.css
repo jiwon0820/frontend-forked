@@ -20,6 +20,29 @@
     background-color: var(--color-bg-white-10);
 }
 
+.selected {
+    border-style: solid;
+    border-color: var(--color-success);
+    background-color: var(--color-bg-success-20);
+}
+
+.selected:hover {
+    background-color: var(--color-bg-success-20);
+    border-color: var(--color-success-fg);
+}
+
+.selected .icon {
+    color: var(--color-success-fg);
+}
+
+.selected .label {
+    color: var(--color-success-fg);
+}
+
+.selected .sub {
+    color: var(--color-success);
+}
+
 .input {
     display: none;
 }

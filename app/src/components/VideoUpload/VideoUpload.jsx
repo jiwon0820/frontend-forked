@@ -15,21 +15,29 @@ export default function VideoUpload({ file, onFileSelect }) {
     }
 
     return (
-        <label className={style.uploadArea}>
+        <label className={`${style.uploadArea} ${file ? style.selected : ''}`}>
             <input
                 type="file"
                 accept="video/mp4,video/quicktime"
                 className={style.input}
                 onChange={handleChange}
             />
-            <svg className={style.icon} width="32" height="32" viewBox="0 0 32 32" fill="none" aria-hidden="true">
-                <path d="M16 22V10M16 10L11 15M16 10L21 15" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
-                <path d="M6 26h20" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round"/>
-            </svg>
+            {file ? (
+                <svg className={style.icon} width="32" height="32" viewBox="0 0 32 32" fill="none" aria-hidden="true">
+                    <path d="M7 16l7 7L25 9" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
+                </svg>
+            ) : (
+                <svg className={style.icon} width="32" height="32" viewBox="0 0 32 32" fill="none" aria-hidden="true">
+                    <path d="M16 22V10M16 10L11 15M16 10L21 15" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
+                    <path d="M6 26h20" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round"/>
+                </svg>
+            )}
             <span className={style.label}>
                 {file ? file.name : 'Upload Workout Video'}
             </span>
-            <span className={style.sub}>MP4, MOV (Max. 50MB)</span>
+            <span className={style.sub}>
+                {file ? 'Click to change file' : 'MP4, MOV (Max. 50MB)'}
+            </span>
         </label>
     )
 }
