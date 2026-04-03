@@ -25,6 +25,7 @@
 
     --color-text:         #FFFFFF;
     --color-text-positive: #0D93F2;
+    --color-text-plus: #00F2FF;
     --color-text-sub:     #9CA3AF;
     --color-text-muted:   #6B7280;
     --color-text-disabled:#4B5563;
@@ -34,10 +35,12 @@
     --font-family: 'Pretendard', sans-serif;
     
     /* font size */
+    --font-size-xm: 1.2rem;
     --font-size-sm: 1.4rem;
     --font-size-md: 1.6rem;
-    --font-size-l: 1.8rem;
+    --font-size-lg: 1.8rem;
     --font-size-xl: 2rem;
+    --font-size-display: 7.2rem;
 
     /* font weight */
     --font-weight-medium: 400;
@@ -48,6 +51,7 @@
 
     /* radius */
     --border-radius: 0.4rem;
+    --border-radius-round: 999rem;
 
     /* Layout */
 
@@ -58,6 +62,7 @@
     /* animation */
 
     /* z-index */
+    --z-index-background: -1;
 
 
 }
