@@ -19,14 +19,19 @@ App
 │   ├── Panel("Analysis Settings")
 │   │   ├── VideoUpload          # 드래그&드롭 업로드 영역 (MP4, MOV / Max 50MB)
 │   │   ├── FpsSelector          # Sampling Rate 토글 (30 / 60 / 120 FPS)
-│   │   └── Button "Start Analysis"
-│   └── SkeletonViewer           # 분석 결과 스켈레톤 렌더링 (status === 'done' 시 활성)
+│   │   └── Button "Start Analysis"  # videoFile 없으면 disabled
+│   ├── Panel("Visualization Settings")
+│   │   ├── Toggle "Show Skeleton"   # 스켈레톤 오버레이 표시 여부
+│   │   ├── Toggle "Joint Load"      # 관절 부하 히트맵 표시 여부
+│   │   └── Toggle "Angle Overlay"   # 관절 각도 수치 오버레이 표시 여부
+│   └── SkeletonViewer               # 분석 결과 렌더링 (status === 'done' 시 활성)
+│       # vizConfig { showSkeleton, jointLoad, angleOverlay } 에 따라 시각화 옵션 적용
 ├── DataInsightSection #dataInsight  # AnalysisBoard — 분석 수치/LLM 피드백 표시
 ├── PipelineSection    #pipeline     # 기술 파이프라인 다이어그램/설명
 └── Footer
 ```
 
-세부 컴포넌트 설계는 `docs/architecture/components.md` 참고.
+설계는 `C:\Users\neighbor\Documents\Code\Github\racl-labs-frontend-forked\app\src\assets\Figma\MVP_v1.svg` 참고.
 
 ### 현재 구현 완료
 | 컴포넌트 | 경로 | 상태 |
@@ -37,7 +42,7 @@ App
 | FpsSelector | components/FpsSelector/FpsSelector.jsx | ✅ |
 | MainHeader | components/sections/MainHeader | ✅ |
 | HeroSection | components/sections/HeroSection | ✅ |
-| CoreDemoSection | components/sections/CoreDemoSection | ✅ |
+| CoreDemoSection | components/sections/CoreDemoSection | 구현중 |
 | Footer | components/sections/Footer | 껍데기만 존재 |
 
 ## 상태 타입
@@ -51,6 +56,11 @@ store shape:
   jobId: string | null
   skeletonData: SkeletonJSON | null
   analysisResult: AnalysisResult | null
+  vizConfig: {
+    showSkeleton: boolean   // default: true
+    jointLoad: boolean      // default: false
+    angleOverlay: boolean   // default: false
+  }
 }
 ```
 
@@ -63,8 +73,11 @@ store shape:
 ## 지금 할 작업
 다음 단계: Zustand store 연결 및 API 통신 구현 (브랜치: 1-feature-frontend-first-markup)
 
-- [ ] Zustand store 설정 — `AnalysisStatus` 상태 및 store shape 구현
+- [ ] Toggle 컴포넌트 — on/off 토글 UI
+- [ ] VisualizationSettings 패널 — Show Skeleton / Joint Load / Angle Overlay 토글 3개
+- [ ] CoreDemoSection에 VisualizationSettings 패널 추가
+- [ ] Zustand store 설정 — `AnalysisStatus` + `vizConfig` 포함한 store shape 구현
 - [ ] `api/` 모듈 작성 — upload, polling, results fetch
 - [ ] CoreDemoSection에서 store 연결 — `handleStartAnalysis` 로직 구현
-- [ ] SkeletonViewer 컴포넌트 — `status === 'done'` 시 스켈레톤 렌더링
+- [ ] SkeletonViewer 컴포넌트 — `status === 'done'` 시 `vizConfig`에 따라 렌더링
 - [ ] DataInsightSection — AnalysisBoard, LLM 피드백 표시
