@@ -1,0 +1,33 @@
+.panelContainer{
+    width: 39rem;
+    padding: 2.4rem;
+    background-color: var(--color-bg-surface-80);
+    border: solid 1px var(--color-bg-white-5);
+    border-radius: var(--border-radius);
+
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: flex-start;
+    gap: 2.4rem;
+
+}
+
+.panelHeader{
+    display: flex;
+    justify-content: flex-start;
+    gap: 0.8rem;
+    align-items: center;
+}
+
+.icon{
+    width: 1.4rem;
+    height: 1.4rem;
+}
+
+.panelLable{
+    color: var(--color-text);
+    font-size: var(--font-size-xl);
+    font-weight: var(--font-weight-bold);
+    line-height: 2.8rem;
+}

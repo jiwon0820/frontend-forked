@@ -11,6 +11,7 @@ function App() {
             <MainHeader/>
             <HeroSection/>
             <Components/>
+            
         </>
     )
 }
