@@ -59,7 +59,11 @@
 
 /* disabled */
 .disabled{
-    opacity: 0.35;
     cursor: not-allowed;
     pointer-events: none;
+}
+
+.positive.disabled{
+    background-color: var(--color-surface-2);
+    color: var(--color-text-disabled);
 }
