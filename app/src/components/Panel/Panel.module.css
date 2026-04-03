@@ -31,3 +31,7 @@
     font-weight: var(--font-weight-bold);
     line-height: 2.8rem;
 }
+
+.panelBody{
+    width: 100%;
+}
