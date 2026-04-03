@@ -14,18 +14,20 @@ import styles from './Button.module.css';
  */
 
 export default function Button({
-    onClick, 
-    theme = 'positive', 
-    width = '17.4rem', 
+    onClick,
+    theme = 'positive',
+    width = '17.4rem',
     height = '5.8rem',
     label = 'Button',
-    fontSize = 'var(--font-size-md)'
+    fontSize = 'var(--font-size-md)',
+    disabled = false,
 }){
     return (
-        <button 
+        <button
             type='button'
             onClick={onClick}
-            className={`${styles.button} ${theme === 'positive' ? styles.positive : styles.negative}`}
+            disabled={disabled}
+            className={`${styles.button} ${theme === 'positive' ? styles.positive : styles.negative} ${disabled ? styles.disabled : ''}`}
             style={{
                 '--btn-width':width,
                 '--btn-height':height,

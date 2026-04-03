@@ -55,4 +55,11 @@
 
 .negative:focus-visible{
     outline-color: var(--color-outline-negative);
-}  
+}
+
+/* disabled */
+.disabled{
+    opacity: 0.35;
+    cursor: not-allowed;
+    pointer-events: none;
+}

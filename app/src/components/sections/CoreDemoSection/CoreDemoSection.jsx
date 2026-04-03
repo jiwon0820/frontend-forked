@@ -25,6 +25,7 @@ export default function CoreDemoSection() {
                         width="100%"
                         height="5.2rem"
                         onClick={handleStartAnalysis}
+                        disabled={!videoFile}
                     />
                 </div>
             </Panel>
