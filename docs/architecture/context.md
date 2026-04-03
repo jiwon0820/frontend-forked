@@ -26,6 +26,7 @@ App
 │   │   └── Toggle "Angle Overlay"   # 관절 각도 수치 오버레이 표시 여부
 │   └── SkeletonViewer               # 분석 결과 렌더링 (status === 'done' 시 활성)
 │       # vizConfig { showSkeleton, jointLoad, angleOverlay } 에 따라 시각화 옵션 적용
+│       # vizConfig는 백엔드에 전달하지 않음 — 순수 프론트 렌더링 옵션 (B안 채택)
 ├── DataInsightSection #dataInsight  # AnalysisBoard — 분석 수치/LLM 피드백 표시
 ├── PipelineSection    #pipeline     # 기술 파이프라인 다이어그램/설명
 └── Footer
@@ -42,7 +43,8 @@ App
 | FpsSelector | components/FpsSelector/FpsSelector.jsx | ✅ |
 | MainHeader | components/sections/MainHeader | ✅ |
 | HeroSection | components/sections/HeroSection | ✅ |
-| CoreDemoSection | components/sections/CoreDemoSection | 구현중 |
+| CoreDemoSection | components/sections/CoreDemoSection | 구현중 (2열 레이아웃 완료) |
+| SkeletonViewer | components/SkeletonViewer | ✅ Live Sync View (video+canvas overlay, 재생 컨트롤) |
 | Footer | components/sections/Footer | 껍데기만 존재 |
 
 ## 상태 타입
@@ -69,13 +71,16 @@ store shape:
 - 백엔드 통신: REST (FastAPI) — upload → polling으로 status 확인 → done이면 results fetch
 - status === 'done' 시점에 CoreDemo, AnalysisBoard가 데이터 받아 렌더링
 - api/ 함수는 store를 직접 건드리지 않음. 컴포넌트에서 호출 후 store에 set
+- vizConfig는 백엔드 API 요청에 포함하지 않음. status === 'done' 이후 SkeletonViewer에만 prop으로 전달하는 순수 프론트 렌더링 옵션 (B안)
 
 ## 지금 할 작업
 다음 단계: Zustand store 연결 및 API 통신 구현 (브랜치: 1-feature-frontend-first-markup)
 
-- [ ] Toggle 컴포넌트 — on/off 토글 UI
-- [ ] VisualizationSettings 패널 — Show Skeleton / Joint Load / Angle Overlay 토글 3개
-- [ ] CoreDemoSection에 VisualizationSettings 패널 추가
+- [x] Toggle 컴포넌트 — on/off 토글 UI
+- [x] VisualizationSettings 패널 — Show Skeleton / Joint Load / Angle Overlay 토글 3개
+- [x] CoreDemoSection에 VisualizationSettings 패널 추가
+- [x] SkeletonViewer (Live Sync View) — video+canvas overlay, scrubber, 배속, 프레임 이동
+- [x] CoreDemoSection 2열 레이아웃 (좌: 설정 패널, 우: SkeletonViewer)
 - [ ] Zustand store 설정 — `AnalysisStatus` + `vizConfig` 포함한 store shape 구현
 - [ ] `api/` 모듈 작성 — upload, polling, results fetch
 - [ ] CoreDemoSection에서 store 연결 — `handleStartAnalysis` 로직 구현
