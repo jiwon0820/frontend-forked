@@ -1,1 +1,2 @@
 - [ ] React Router 도입 후 MainHeader signature(RACKLABS, MVP V1)의 `<a href="/">` 링크를 `<Link to="/">`로 갱신 ([MainHeader.jsx](../app/src/components/sections/MainHeader/MainHeader.jsx))
+- [ ] React Router 도입 후 HeroSection `Start Demo` / `View Tech Docs` 버튼 `onClick` 이벤트 연결 ([HeroSection.jsx](../app/src/components/sections/HeroSection/HeroSection.jsx))
