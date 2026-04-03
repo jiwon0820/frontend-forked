@@ -1,4 +1,5 @@
 import Components from './Components.jsx'
+import HeroSection from './components/sections/HeroSection/HeroSection.jsx'
 import MainHeader from './components/sections/MainHeader/MainHeader.jsx'
 
 
@@ -8,6 +9,7 @@ function App() {
         <>
             Hello Vite-React!
             <MainHeader/>
+            <HeroSection/>
             <Components/>
         </>
     )
