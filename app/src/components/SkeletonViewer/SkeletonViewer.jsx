@@ -2,14 +2,6 @@ import { useRef, useState, useEffect, useCallback } from 'react'
 import { useVideoSync } from './hooks/useVideoSync.js'
 import style from './SkeletonViewer.module.css'
 
-const PLAYBACK_RATES = [0.5, 1.0, 2.0]
-
-function formatTime(seconds) {
-    const m = Math.floor(seconds / 60)
-    const s = (seconds % 60).toFixed(1).padStart(4, '0')
-    return `${String(m).padStart(2, '0')}:${s}s`
-}
-
 /**
  * Live Sync View — 원본 영상 위에 스켈레톤/히트맵/각도를 동기 오버레이해 재생한다.
  *
@@ -34,8 +26,8 @@ export default function SkeletonViewer({
     const [isPlaying, setIsPlaying] = useState(false)
     const [currentTime, setCurrentTime] = useState(0)
     const [duration, setDuration] = useState(0)
-    const [playbackRate, setPlaybackRate] = useState(1.0)
     const [canvasReady, setCanvasReady] = useState(false)
+    const [skeletonHidden, setSkeletonHidden] = useState(false)
 
     // videoFile → objectURL
     useEffect(() => {
@@ -60,18 +52,14 @@ export default function SkeletonViewer({
         setCanvasReady(true)
     }, [])
 
-    // 배속 변경
-    useEffect(() => {
-        if (videoRef.current) videoRef.current.playbackRate = playbackRate
-    }, [playbackRate])
-
     // Canvas 렌더링 루프
+    const mergedVizConfig = { ...vizConfig, showSkeleton: vizConfig?.showSkeleton && !skeletonHidden }
     useVideoSync({
         videoRef,
         canvasRef,
         skeletonData: canvasReady ? skeletonData : null,
         analysisResult,
-        vizConfig,
+        vizConfig: mergedVizConfig,
     })
 
     function handleTimeUpdate() {
@@ -100,15 +88,6 @@ export default function SkeletonViewer({
         setCurrentTime(time)
     }
 
-    function stepFrame(direction) {
-        const fps = skeletonData?.fps ?? 30
-        const video = videoRef.current
-        if (!video) return
-        const next = Math.max(0, Math.min(duration, video.currentTime + direction / fps))
-        video.currentTime = next
-        setCurrentTime(next)
-    }
-
     const isDone = status === 'done'
     const isLoading = status === 'uploading' || status === 'analyzing'
 
@@ -121,12 +100,13 @@ export default function SkeletonViewer({
         <div className={style.container}>
             {/* Header */}
             <div className={style.header}>
-                <span className={style.title}>Live Sync View</span>
+                <div className={style.titleGroup}>
+                    <span className={style.liveDot} />
+                    <span className={style.title}>LIVE SYNC VIEW</span>
+                </div>
                 {isDone && (
                     <span className={style.frameInfo}>
-                        Frame {String(frameIndex + 1).padStart(3, '0')} / {totalFrames}
-                        <span className={style.separator}>·</span>
-                        {formatTime(currentTime)}
+                        FRAME: {String(frameIndex + 1).padStart(4, '0')} / {String(totalFrames).padStart(4, '0')}
                     </span>
                 )}
             </div>
@@ -175,9 +155,13 @@ export default function SkeletonViewer({
             </div>
 
             {/* Controls */}
-            {isDone && (
-                <div className={style.controls}>
-                    <div className={style.scrubberWrap}>
+            <div className={style.controls}>
+                <div className={style.controlMeta}>
+                    <span className={style.timelineLabel}>TIMELINE CONTROL</span>
+                    {isDone && <span className={style.analysisActive}>ANALYSIS ACTIVE</span>}
+                </div>
+                <div className={style.controlMain}>
+                    <div className={style.timelineBarWrap}>
                         <input
                             type="range"
                             className={style.scrubber}
@@ -186,46 +170,28 @@ export default function SkeletonViewer({
                             step={skeletonData ? 1 / skeletonData.fps : 0.033}
                             value={currentTime}
                             onChange={handleScrub}
+                            disabled={!isDone}
+                            style={{ '--progress': duration ? `${(currentTime / duration) * 100}%` : '0%' }}
                         />
                     </div>
-                    <div className={style.controlRow}>
-                        <div className={style.playControls}>
-                            <button
-                                className={style.ctrlBtn}
-                                onClick={() => stepFrame(-1)}
-                                title="Previous frame"
-                            >
-                                &#9664;&#9664;
-                            </button>
-                            <button
-                                className={`${style.ctrlBtn} ${style.playBtn}`}
-                                onClick={togglePlay}
-                                title={isPlaying ? 'Pause' : 'Play'}
-                            >
-                                {isPlaying ? '⏸' : '▶'}
-                            </button>
-                            <button
-                                className={style.ctrlBtn}
-                                onClick={() => stepFrame(1)}
-                                title="Next frame"
-                            >
-                                &#9654;&#9654;
-                            </button>
-                        </div>
-                        <div className={style.speedControls}>
-                            {PLAYBACK_RATES.map(rate => (
-                                <button
-                                    key={rate}
-                                    className={`${style.speedBtn} ${playbackRate === rate ? style.activeSpeed : ''}`}
-                                    onClick={() => setPlaybackRate(rate)}
-                                >
-                                    {rate}x
-                                </button>
-                            ))}
-                        </div>
+                    <div className={style.actionButtons}>
+                        <button
+                            className={style.actionBtn}
+                            onClick={togglePlay}
+                            disabled={!isDone}
+                        >
+                            {isPlaying ? 'PAUSE' : 'PLAY'}
+                        </button>
+                        <button
+                            className={`${style.actionBtn} ${skeletonHidden ? style.actionBtnActive : ''}`}
+                            onClick={() => setSkeletonHidden(v => !v)}
+                            disabled={!isDone}
+                        >
+                            {skeletonHidden ? 'SHOW SKELETON' : 'HIDE SKELETON'}
+                        </button>
                     </div>
                 </div>
-            )}
+            </div>
         </div>
     )
 }
