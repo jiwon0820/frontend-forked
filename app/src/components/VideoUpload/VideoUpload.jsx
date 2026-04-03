@@ -14,8 +14,22 @@ export default function VideoUpload({ file, onFileSelect }) {
         if (selected) onFileSelect?.(selected)
     }
 
+    function handleDragOver(e) {
+        e.preventDefault()
+    }
+
+    function handleDrop(e) {
+        e.preventDefault()
+        const dropped = e.dataTransfer.files[0]
+        if (dropped) onFileSelect?.(dropped)
+    }
+
     return (
-        <label className={`${style.uploadArea} ${file ? style.selected : ''}`}>
+        <label
+            className={`${style.uploadArea} ${file ? style.selected : ''}`}
+            onDragOver={handleDragOver}
+            onDrop={handleDrop}
+        >
             <input
                 type="file"
                 accept="video/mp4,video/quicktime"
