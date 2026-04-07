@@ -1,0 +1,19 @@
+.sectionIntro{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: flex-start;
+    gap: 0.8rem;
+}
+
+.sectionIntro .sectionHeading{
+    font-size: var(--font-size-xxl);
+    font-weight: var(--font-weight-bold);
+    color: var(--color-text);
+}
+
+.sectionIntro .sectionDescription{
+    font-size: var(--font-size-md);
+    font-weight: var(--font-weight-medium);
+    color: var(--color-text-sub);
+}
