@@ -1,5 +1,5 @@
 .panelContainer{
-    width: 39rem;
+    width: 100%;
     padding: 2.4rem;
     background-color: var(--color-bg-surface-80);
     border: solid 1px var(--color-bg-white-5);
