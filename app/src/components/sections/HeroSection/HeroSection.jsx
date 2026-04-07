@@ -4,7 +4,7 @@ import overlay from '../../../assets/images/Overlay.svg'
 
 export default function HeroSection(){
     return(
-        <div className={style.sectionContainer}>
+        <section className={style.sectionContainer}>
             <img className={style.overlay} src={overlay} alt="" />
             <p className={style.eyebrow}>
                 BIOMECHANICS · POSE ESTIMATION
@@ -34,6 +34,6 @@ export default function HeroSection(){
                     // onClick={}
                 />
             </div>
-        </div>
+        </section>
     )
 }
