@@ -63,6 +63,7 @@
     --font-size-md: 1.6rem;
     --font-size-lg: 1.8rem;
     --font-size-xl: 2rem;
+    --font-size-xxl: 2rem;
     --font-size-display: 7.2rem;
 
     /* font weight */
@@ -117,3 +118,4 @@ body{
     margin: 0 auto;
     padding: 0 2.4rem;
 }
+
