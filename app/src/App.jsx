@@ -7,7 +7,6 @@ function App() {
 
     return (
         <>
-            Hello Vite-React!
             <MainHeader/>
             <HeroSection/>
             <CoreDemoSection/>
