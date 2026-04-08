@@ -1,28 +1,25 @@
 import style from './FpsSelector.module.css'
 
-const FPS_OPTIONS = [30, 60, 120]
+const FPS_OPTIONS = [
+    { value: null, label: 'Source FPS', description: 'Use source video fps' },
+    { value: 30, label: '30 FPS', description: 'Balanced throughput' },
+    { value: 60, label: '60 FPS', description: 'Higher fidelity' },
+]
 
-/**
- * Sampling Rate(FPS) 토글 선택 컴포넌트.
- *
- * @param {Object} props
- * @param {30|60|120} [props.value=60] - 현재 선택된 FPS 값.
- * @param {Function} [props.onChange] - FPS 선택 시 숫자 값을 인자로 호출.
- * @returns {JSX.Element}
- */
-export default function FpsSelector({ value = 60, onChange }) {
+export default function FpsSelector({ value = null, onChange }) {
     return (
         <div className={style.container}>
             <span className={style.label}>Sampling Rate (FPS)</span>
             <div className={style.options}>
-                {FPS_OPTIONS.map(fps => (
+                {FPS_OPTIONS.map(option => (
                     <button
-                        key={fps}
+                        key={option.label}
                         type="button"
-                        className={`${style.option} ${value === fps ? style.selected : ''}`}
-                        onClick={() => onChange?.(fps)}
+                        className={`${style.option} ${value === option.value ? style.selected : ''}`}
+                        onClick={() => onChange?.(option.value)}
                     >
-                        {fps} FPS
+                        <span>{option.label}</span>
+                        <small className={style.optionMeta}>{option.description}</small>
                     </button>
                 ))}
             </div>

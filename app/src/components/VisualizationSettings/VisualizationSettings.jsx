@@ -1,32 +1,32 @@
 import Toggle from '../Toggle/Toggle'
 import style from './VisualizationSettings.module.css'
 
-/**
- * 시각화 옵션 토글 3개를 묶은 컴포넌트.
- *
- * @param {Object} props
- * @param {{ showSkeleton: boolean, jointLoad: boolean, angleOverlay: boolean }} props.vizConfig
- * @param {Function} props.onChange - (key: string, value: boolean) => void
- * @returns {JSX.Element}
- */
 export default function VisualizationSettings({ vizConfig, onChange }) {
+    const options = [
+        ['showSkeleton', 'Show Skeleton'],
+        ['showJointLabels', 'Joint Labels'],
+        ['showAngleOverlay', 'Angle Overlay'],
+        ['showJointLoad', 'Joint Load'],
+        ['showIssueMarkers', 'Issue Markers'],
+        ['showRepBoundaries', 'Rep Boundaries'],
+        ['showEventMarkers', 'Event Markers'],
+        ['showPathTrace', 'Motion Path'],
+        ['showConfidenceTint', 'Confidence Tint'],
+        ['showBarPass', 'Bar Pass'],
+        ['showGroundVector', 'Ground Vector'],
+        ['showCoP', 'CoP Line'],
+    ]
+
     return (
         <div className={style.container}>
-            <Toggle
-                label="Show Skeleton"
-                checked={vizConfig.showSkeleton}
-                onChange={(v) => onChange('showSkeleton', v)}
-            />
-            <Toggle
-                label="Joint Load"
-                checked={vizConfig.jointLoad}
-                onChange={(v) => onChange('jointLoad', v)}
-            />
-            <Toggle
-                label="Angle Overlay"
-                checked={vizConfig.angleOverlay}
-                onChange={(v) => onChange('angleOverlay', v)}
-            />
+            {options.map(([key, label]) => (
+                <Toggle
+                    key={key}
+                    label={label}
+                    checked={Boolean(vizConfig[key])}
+                    onChange={(value) => onChange(key, value)}
+                />
+            ))}
         </div>
     )
 }

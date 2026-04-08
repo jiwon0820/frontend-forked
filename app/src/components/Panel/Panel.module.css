@@ -1,5 +1,6 @@
 .panelContainer{
     width: 100%;
+    height: auto;
     padding: 2.4rem;
     background-color: var(--color-bg-surface-80);
     border: solid 1px var(--color-bg-white-5);
@@ -18,6 +19,20 @@
     justify-content: flex-start;
     gap: 0.8rem;
     align-items: center;
+    width: 100%;
+}
+
+.headerPrefix{
+    display: flex;
+    align-items: center;
+    flex-shrink: 0;
+}
+
+.headerSuffix{
+    margin-left: auto;
+    display: flex;
+    align-items: center;
+    flex-shrink: 0;
 }
 
 .icon{

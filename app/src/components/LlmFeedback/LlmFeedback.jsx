@@ -1,10 +1,10 @@
 import style from './LlmFeedback.module.css';
 
-export default function LlmFeedback({LlmFeedback}){
+export default function LlmFeedback({ feedbackText }){
     return(
         <article className={style.LlmFeedbackConatiner}>
-            <p className={LlmFeedback}>
-                {LlmFeedback}
+            <p className={style.feedbackText}>
+                {feedbackText}
             </p>
         </article>
     )

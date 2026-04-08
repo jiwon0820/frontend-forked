@@ -9,18 +9,20 @@ import style from './Panel.module.css'
  * @param {React.ReactNode} props.children - 패널 본문에 렌더링할 자식 요소.
  * @returns {JSX.Element}
  */
-export default function Panel({icon, label, children, id, tabIndex}){
+export default function Panel({icon, label, headerPrefix, headerSuffix, children, id, tabIndex, containerClassName = '', bodyClassName = ''}){
     return (
-        <div className={style.panelContainer} id={id} tabIndex={tabIndex}>
+        <div className={`${style.panelContainer} ${containerClassName}`.trim()} id={id} tabIndex={tabIndex}>
             <div className={style.panelHeader}>
+                {headerPrefix && <div className={style.headerPrefix}>{headerPrefix}</div>}
                 {icon && <img 
                     src={icon}
                     alt={label}
                     className={style.icon}            
                 />}
                 <h3 className={style.panelLable}>{label}</h3>
+                {headerSuffix && <div className={style.headerSuffix}>{headerSuffix}</div>}
             </div>
-            <div className={style.panelBody}>
+            <div className={`${style.panelBody} ${bodyClassName}`.trim()}>
                 {children}
             </div>
         </div>

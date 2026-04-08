@@ -18,7 +18,12 @@
 
 .option {
     flex: 1;
-    height: 4rem;
+    min-height: 5.2rem;
+    padding: 0.8rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 0.2rem;
     font-size: var(--font-size-sm);
     font-weight: var(--font-weight-bold);
     color: var(--color-text);
@@ -41,4 +46,10 @@
 
 .selected:hover {
     background-color: var(--color-bg-positive-10);
+}
+
+.optionMeta {
+    font-size: var(--font-size-xxm);
+    font-weight: var(--font-weight-medium);
+    color: var(--color-text-sub);
 }

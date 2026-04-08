@@ -61,9 +61,16 @@
 .disabled{
     cursor: not-allowed;
     pointer-events: none;
+    color: var(--color-text-muted);
 }
 
 .positive.disabled{
     background-color: var(--color-surface-2);
-    color: var(--color-text-disabled);
+    color: var(--color-text-muted);
+}
+
+.negative.disabled{
+    background-color: var(--color-bg-black-50);
+    border-color: var(--color-border-white-10);
+    color: var(--color-text-muted);
 }
