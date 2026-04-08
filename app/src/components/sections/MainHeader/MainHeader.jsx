@@ -1,6 +1,7 @@
 import Button from '../../Button/Button';
 import styles from './MainHeader.module.css';
 import Logo from '../../../assets/images/Logo_SMU.svg'
+import { focusCoreDemo } from '../../../utils/focusCoreDemo.js'
 
 
 export default function MainHeader(){
@@ -13,7 +14,18 @@ export default function MainHeader(){
             </div>
             <nav>
                 <ul className={styles.nav}>
-                    <li><a href='#coreDemo'>Core Demo</a></li>
+                    <li>
+                        <a
+                            href='#coreDemo'
+                            onClick={(event) => {
+                                event.preventDefault()
+                                focusCoreDemo()
+                            }}
+                        >
+                            Core Demo
+                        </a>
+                    </li>
+                    <li><a href='#liveSyncStudio'>Live View</a></li>
                     <li><a href='#dataInsight'>Data Insight</a></li>
                     <li><a href='#technicalPipeline'>Pipeline</a></li>
                 </ul>
