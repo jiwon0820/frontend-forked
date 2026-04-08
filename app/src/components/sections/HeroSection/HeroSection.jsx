@@ -1,6 +1,7 @@
 import Button from '../../Button/Button';
 import style from './HeroSection.module.css';
 import overlay from '../../../assets/images/Overlay.svg'
+import LogoGithub from '../../../assets/images/Logo_github.svg'
 
 export default function HeroSection(){
     return(
@@ -23,15 +24,26 @@ export default function HeroSection(){
                     height='5.8rem'
                     label='Start Demo'
                     fontSize='var(--font-size-md)'
-                    // onClick={}
+                    onClick={() => {
+                        const panel = document.getElementById('analysisSettingsPanel');
+                        if (panel) { panel.scrollIntoView({ behavior: 'smooth', block: 'center' }); panel.focus(); }
+                        const upload = document.getElementById('uploadAreaTarget');
+                        if (upload) {
+                            upload.classList.remove('upload-impulse');
+                            void upload.offsetWidth;
+                            upload.classList.add('upload-impulse');
+                            upload.addEventListener('animationend', () => upload.classList.remove('upload-impulse'), { once: true });
+                        }
+                    }}
                 />
                 <Button
                     width='17.4rem'
                     height='5.8rem'
-                    label='View Tech Docs'
+                    label='GitHub'
                     theme='negative'
                     fontSize='var(--font-size-md)'
-                    // onClick={}
+                    icon={LogoGithub}
+                    href='https://github.com/rack-labs/rack-tracker/tree/develop/poseLandmarker_Python'
                 />
             </div>
         </section>

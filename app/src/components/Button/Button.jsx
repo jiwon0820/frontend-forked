@@ -21,20 +21,35 @@ export default function Button({
     label = 'Button',
     fontSize = 'var(--font-size-md)',
     disabled = false,
+    icon,
+    href,
 }){
+    const className = `${styles.button} ${theme === 'positive' ? styles.positive : styles.negative} ${disabled ? styles.disabled : ''}`;
+    const style = { '--btn-width': width, '--btn-height': height, '--btn-font-size': fontSize };
+    const content = (
+        <>
+            {icon && <img src={icon} alt="" style={{ height: '1.6rem', width: 'auto', marginRight: '0.8rem' }} />}
+            {label}
+        </>
+    );
+
+    if (href) {
+        return (
+            <a href={href} target="_blank" rel="noopener noreferrer" className={className} style={style}>
+                {content}
+            </a>
+        );
+    }
+
     return (
         <button
             type='button'
             onClick={onClick}
             disabled={disabled}
-            className={`${styles.button} ${theme === 'positive' ? styles.positive : styles.negative} ${disabled ? styles.disabled : ''}`}
-            style={{
-                '--btn-width':width,
-                '--btn-height':height,
-                '--btn-font-size': fontSize,
-            }}
+            className={className}
+            style={style}
         >
-            {label}
+            {content}
         </button>
     )
 }
