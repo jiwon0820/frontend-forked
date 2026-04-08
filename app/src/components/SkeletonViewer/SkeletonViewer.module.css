@@ -1,60 +1,27 @@
 .container {
     width: 100%;
-    background-color: var(--color-bg-surface-80);
-    border: solid 1px var(--color-bg-white-5);
-    border-radius: var(--border-radius);
     display: flex;
     flex-direction: column;
     gap: 0;
-    overflow: hidden;
 }
 
-/* ── Header ── */
-.header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 1.4rem 2rem;
-    border-bottom: solid 1px var(--color-bg-white-5);
-    flex-shrink: 0;
-}
-
-.titleGroup {
-    display: flex;
-    align-items: center;
-    gap: 0.8rem;
-}
-
-.liveDot {
-    width: 0.8rem;
-    height: 0.8rem;
-    border-radius: 50%;
-    background-color: #e53e3e;
-    flex-shrink: 0;
-    animation: pulse 2s ease-in-out infinite;
-}
-
-@keyframes pulse {
-    0%, 100% { opacity: 1; }
-    50% { opacity: 0.4; }
-}
-
-.title {
-    font-size: var(--font-size-sm);
-    font-weight: var(--font-weight-bold);
-    color: var(--color-text);
-    letter-spacing: 0.08em;
-}
-
-.frameInfo {
-    font-size: var(--font-size-sm);
+.frameInfoOverlay {
+    position: absolute;
+    top: 1.6rem;
+    right: 1.6rem;
+    z-index: 2;
+    padding: 0.6rem 0.9rem;
+    border-radius: var(--border-radius-round);
+    background: rgba(10, 10, 12, 0.72);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    font-size: var(--font-size-xm);
     font-weight: var(--font-weight-medium);
     color: var(--color-text-sub);
     font-family: 'Courier New', monospace;
     letter-spacing: 0.05em;
+    pointer-events: none;
 }
 
-/* ── Viewport ── */
 .viewport {
     position: relative;
     width: 100%;
@@ -73,14 +40,9 @@
 
 .canvas {
     position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
     pointer-events: none;
 }
 
-/* ── State Overlay (idle / loading / error) ── */
 .stateOverlay {
     position: absolute;
     inset: 0;
@@ -112,7 +74,6 @@
     color: var(--color-error);
 }
 
-/* ── Spinner ── */
 .spinner {
     width: 3.2rem;
     height: 3.2rem;
@@ -126,7 +87,6 @@
     to { transform: rotate(360deg); }
 }
 
-/* ── Controls ── */
 .controls {
     display: flex;
     flex-direction: column;
@@ -135,7 +95,6 @@
     flex-shrink: 0;
 }
 
-/* Meta row: labels */
 .controlMeta {
     display: flex;
     justify-content: space-between;
@@ -157,14 +116,12 @@
     letter-spacing: 0.06em;
 }
 
-/* Main row: timeline bar + action buttons */
 .controlMain {
     display: flex;
     align-items: center;
     padding: 0 0 0.8rem;
 }
 
-/* Action buttons (Play/Pause, Hide Skeleton) */
 .actionButtons {
     display: flex;
     align-items: center;
@@ -175,6 +132,7 @@
 
 .actionBtn {
     padding: 0.8rem 1.6rem;
+    min-width: 8rem;
     border-radius: var(--border-radius);
     background: var(--color-bg-negative);
     border: solid 1px var(--color-border-negative);
@@ -189,6 +147,10 @@
 
 .actionBtn:hover:not(:disabled) {
     background: var(--color-bg-negative-hover);
+}
+
+.actionBtnWide {
+    min-width: 14rem;
 }
 
 .actionBtn:disabled {
@@ -206,11 +168,11 @@
     background: var(--color-bg-positive-20);
 }
 
-/* Timeline bar */
 .timelineBarWrap {
     flex: 1;
     min-width: 0;
     padding: 0 0 0 2rem;
+    position: relative;
 }
 
 .scrubber {
@@ -255,4 +217,57 @@
     width: 0;
     height: 0;
     border: none;
+}
+
+.markerTrack {
+    position: relative;
+    height: 1.2rem;
+    margin-top: 0.6rem;
+}
+
+.marker {
+    position: absolute;
+    top: 0;
+    width: 0.2rem;
+    height: 100%;
+    border-radius: var(--border-radius-round);
+    transform: translateX(-50%);
+    opacity: 0.9;
+}
+
+.markerRep {
+    background: rgba(255, 255, 255, 0.5);
+}
+
+.markerBottom {
+    background: rgba(13, 147, 242, 0.9);
+}
+
+.markerIssue {
+    background: rgba(239, 68, 68, 0.9);
+}
+
+.markerEvent {
+    background: rgba(34, 197, 94, 0.9);
+}
+
+.annotationBar {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.8rem;
+    padding: 0 2rem 1.2rem;
+}
+
+.annotationChip {
+    padding: 0.6rem 1rem;
+    border-radius: var(--border-radius-round);
+    border: 1px solid var(--color-border-white-10);
+    background: var(--color-bg-negative);
+    color: var(--color-text-sub-2);
+    font-size: var(--font-size-xm);
+}
+
+.annotationIssue {
+    border-color: rgba(239, 68, 68, 0.4);
+    color: #fca5a5;
 }

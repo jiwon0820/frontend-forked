@@ -2,25 +2,18 @@ import { useRef, useState, useEffect, useCallback } from 'react'
 import { useVideoSync } from './hooks/useVideoSync.js'
 import style from './SkeletonViewer.module.css'
 
-/**
- * Live Sync View — 원본 영상 위에 스켈레톤/히트맵/각도를 동기 오버레이해 재생한다.
- *
- * @param {Object} props
- * @param {File|null}   props.videoFile      - 원본 동영상 File 객체
- * @param {Object|null} props.skeletonData   - 백엔드 skeleton JSON
- * @param {Object|null} props.analysisResult - 백엔드 analysis JSON
- * @param {Object}      props.vizConfig      - { showSkeleton, jointLoad, angleOverlay }
- * @param {string}      props.status         - AnalysisStatus
- */
 export default function SkeletonViewer({
     videoFile,
     skeletonData,
-    analysisResult,
     vizConfig,
+    barPlacementMode,
     status,
+    jobProgress,
+    errorMessage,
 }) {
     const videoRef = useRef(null)
     const canvasRef = useRef(null)
+    const viewportRef = useRef(null)
 
     const [videoURL, setVideoURL] = useState(null)
     const [isPlaying, setIsPlaying] = useState(false)
@@ -28,20 +21,59 @@ export default function SkeletonViewer({
     const [duration, setDuration] = useState(0)
     const [canvasReady, setCanvasReady] = useState(false)
     const [skeletonHidden, setSkeletonHidden] = useState(false)
+    const [canvasStyle, setCanvasStyle] = useState({ top: 0, left: 0, width: '100%', height: '100%' })
 
-    // videoFile → objectURL
+    const updateCanvasRect = useCallback(() => {
+        const video = videoRef.current
+        const viewport = viewportRef.current
+        if (!video || !viewport || !video.videoWidth || !video.videoHeight) return
+
+        const containerW = viewport.clientWidth
+        const containerH = viewport.clientHeight
+        const videoAspect = video.videoWidth / video.videoHeight
+        const containerAspect = containerW / containerH
+
+        let renderedW, renderedH
+        if (videoAspect > containerAspect) {
+            renderedW = containerW
+            renderedH = containerW / videoAspect
+        } else {
+            renderedH = containerH
+            renderedW = containerH * videoAspect
+        }
+
+        setCanvasStyle({
+            top: (containerH - renderedH) / 2,
+            left: (containerW - renderedW) / 2,
+            width: renderedW,
+            height: renderedH,
+        })
+    }, [])
+
     useEffect(() => {
-        if (!videoFile) { setVideoURL(null); return }
+        const viewport = viewportRef.current
+        if (!viewport) return
+        const ro = new ResizeObserver(updateCanvasRect)
+        ro.observe(viewport)
+        return () => ro.disconnect()
+    }, [updateCanvasRect])
+
+    useEffect(() => {
+        if (!videoFile) {
+            setVideoURL(null)
+            return
+        }
+
         const url = URL.createObjectURL(videoFile)
         setVideoURL(url)
         setIsPlaying(false)
         setCurrentTime(0)
         setDuration(0)
         setCanvasReady(false)
+
         return () => URL.revokeObjectURL(url)
     }, [videoFile])
 
-    // 메타데이터 로드 → canvas 내부 해상도를 영상 원본 해상도에 맞춤
     const handleLoadedMetadata = useCallback(() => {
         const video = videoRef.current
         const canvas = canvasRef.current
@@ -50,16 +82,20 @@ export default function SkeletonViewer({
         canvas.height = video.videoHeight
         setDuration(video.duration)
         setCanvasReady(true)
-    }, [])
+        updateCanvasRect()
+    }, [updateCanvasRect])
 
-    // Canvas 렌더링 루프
-    const mergedVizConfig = { ...vizConfig, showSkeleton: vizConfig?.showSkeleton && !skeletonHidden }
+    const mergedVizConfig = {
+        ...vizConfig,
+        showSkeleton: vizConfig?.showSkeleton && !skeletonHidden,
+    }
+
     useVideoSync({
         videoRef,
         canvasRef,
         skeletonData: canvasReady ? skeletonData : null,
-        analysisResult,
         vizConfig: mergedVizConfig,
+        barPlacementMode,
     })
 
     function handleTimeUpdate() {
@@ -73,6 +109,7 @@ export default function SkeletonViewer({
     function togglePlay() {
         const video = videoRef.current
         if (!video) return
+
         if (video.paused) {
             video.play()
             setIsPlaying(true)
@@ -82,37 +119,56 @@ export default function SkeletonViewer({
         }
     }
 
-    function handleScrub(e) {
-        const time = parseFloat(e.target.value)
-        if (videoRef.current) videoRef.current.currentTime = time
+    function handleScrub(event) {
+        const time = parseFloat(event.target.value)
+        if (videoRef.current) {
+            videoRef.current.currentTime = time
+        }
         setCurrentTime(time)
     }
 
-    const isDone = status === 'done'
-    const isLoading = status === 'uploading' || status === 'analyzing'
-
-    const frameIndex = skeletonData
+    const isDone = status === 'completed'
+    const isLoading = ['uploading', 'queued', 'extracting', 'analyzing', 'generating_feedback'].includes(status)
+    const frameIndex = skeletonData?.frames?.length
         ? Math.min(Math.round(currentTime * skeletonData.fps), skeletonData.frames.length - 1)
         : 0
     const totalFrames = skeletonData?.frames?.length ?? 0
+    const durationMs = skeletonData?.durationMs ?? (duration * 1000)
+    const currentTimestampMs = currentTime * 1000
+
+    const repBoundaries = vizConfig.showRepBoundaries
+        ? (skeletonData?.repSegments ?? []).flatMap((segment, index) => ([
+            {
+                id: `rep-start-${index}`,
+                label: `Rep ${segment.repIndex ?? index + 1} start`,
+                position: durationMs > 0 ? (segment.startMs / durationMs) * 100 : 0,
+                type: 'rep',
+            },
+            {
+                id: `rep-bottom-${index}`,
+                label: `Rep ${segment.repIndex ?? index + 1} bottom`,
+                position: durationMs > 0 ? (segment.bottomMs / durationMs) * 100 : 0,
+                type: 'repBottom',
+            },
+        ]))
+        : []
+
+    const timelineMarkers = (skeletonData?.timelineMarkers ?? []).filter(marker => {
+        if (marker.kind === 'issue' && !vizConfig.showIssueMarkers) return false
+        if (marker.kind === 'event' && !vizConfig.showEventMarkers) return false
+        return true
+    })
+
+    const activeMarkers = timelineMarkers.filter(marker => Math.abs(marker.timestampMs - currentTimestampMs) < 500)
 
     return (
         <div className={style.container}>
-            {/* Header */}
-            <div className={style.header}>
-                <div className={style.titleGroup}>
-                    <span className={style.liveDot} />
-                    <span className={style.title}>LIVE SYNC VIEW</span>
-                </div>
+            <div className={style.viewport} ref={viewportRef}>
                 {isDone && (
-                    <span className={style.frameInfo}>
+                    <div className={style.frameInfoOverlay}>
                         FRAME: {String(frameIndex + 1).padStart(4, '0')} / {String(totalFrames).padStart(4, '0')}
-                    </span>
+                    </div>
                 )}
-            </div>
-
-            {/* Viewport */}
-            <div className={style.viewport}>
                 {isDone && videoURL ? (
                     <>
                         <video
@@ -125,19 +181,19 @@ export default function SkeletonViewer({
                             playsInline
                             muted
                         />
-                        <canvas ref={canvasRef} className={style.canvas} />
+                        <canvas ref={canvasRef} className={style.canvas} style={canvasStyle} />
                     </>
                 ) : isLoading ? (
                     <div className={style.stateOverlay}>
                         <div className={style.spinner} />
                         <p className={style.stateText}>
-                            {status === 'uploading' ? 'Uploading...' : 'Analyzing...'}
+                            {jobProgress?.stage ? `${jobProgress.stage}...` : 'Analyzing...'}
                         </p>
                     </div>
                 ) : status === 'error' ? (
                     <div className={style.stateOverlay}>
                         <p className={`${style.stateText} ${style.errorText}`}>
-                            Analysis failed. Please try again.
+                            {errorMessage || 'Analysis failed. Please try again.'}
                         </p>
                     </div>
                 ) : (
@@ -154,7 +210,6 @@ export default function SkeletonViewer({
                 )}
             </div>
 
-            {/* Controls */}
             <div className={style.controls}>
                 <div className={style.controlMeta}>
                     <span className={style.timelineLabel}>TIMELINE CONTROL</span>
@@ -173,24 +228,59 @@ export default function SkeletonViewer({
                             disabled={!isDone}
                             style={{ '--progress': duration ? `${(currentTime / duration) * 100}%` : '0%' }}
                         />
+                        <div className={style.markerTrack}>
+                            {repBoundaries.map(marker => (
+                                <span
+                                    key={marker.id}
+                                    className={`${style.marker} ${marker.type === 'repBottom' ? style.markerBottom : style.markerRep}`}
+                                    style={{ left: `${marker.position}%` }}
+                                    title={marker.label}
+                                />
+                            ))}
+                            {timelineMarkers.map(marker => (
+                                <span
+                                    key={marker.id}
+                                    className={`${style.marker} ${marker.kind === 'issue' ? style.markerIssue : style.markerEvent}`}
+                                    style={{ left: `${marker.position}%` }}
+                                    title={marker.message ?? marker.label}
+                                />
+                            ))}
+                        </div>
                     </div>
                     <div className={style.actionButtons}>
                         <button
-                            className={style.actionBtn}
+                            className={`${style.actionBtn} ${!isPlaying ? style.actionBtnActive : ''}`}
                             onClick={togglePlay}
                             disabled={!isDone}
                         >
                             {isPlaying ? 'PAUSE' : 'PLAY'}
                         </button>
                         <button
-                            className={`${style.actionBtn} ${skeletonHidden ? style.actionBtnActive : ''}`}
-                            onClick={() => setSkeletonHidden(v => !v)}
+                            className={`${style.actionBtn} ${style.actionBtnWide} ${skeletonHidden ? style.actionBtnActive : ''}`}
+                            onClick={() => setSkeletonHidden(value => !value)}
                             disabled={!isDone}
                         >
                             {skeletonHidden ? 'SHOW SKELETON' : 'HIDE SKELETON'}
                         </button>
                     </div>
                 </div>
+                {(activeMarkers.length > 0 || jobProgress?.stage) && (
+                    <div className={style.annotationBar}>
+                        {jobProgress?.stage && !isDone && (
+                            <span className={style.annotationChip}>
+                                Stage: {jobProgress.stage}
+                            </span>
+                        )}
+                        {activeMarkers.map(marker => (
+                            <span
+                                key={marker.id}
+                                className={`${style.annotationChip} ${marker.kind === 'issue' ? style.annotationIssue : ''}`}
+                            >
+                                {marker.label}
+                            </span>
+                        ))}
+                    </div>
+                )}
             </div>
         </div>
     )
