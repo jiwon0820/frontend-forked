@@ -26,6 +26,7 @@ export default function VideoUpload({ file, onFileSelect }) {
 
     return (
         <label
+            id="uploadAreaTarget"
             className={`${style.uploadArea} ${file ? style.selected : ''}`}
             onDragOver={handleDragOver}
             onDrop={handleDrop}

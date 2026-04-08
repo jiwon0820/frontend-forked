@@ -35,3 +35,8 @@
 .panelBody{
     width: 100%;
 }
+
+.panelContainer:focus {
+    outline: none;
+    border-color: var(--color-bg-positive);
+}

@@ -1,3 +1,4 @@
+import { useState } from 'react'
 import HeroSection from './components/sections/HeroSection/HeroSection.jsx'
 import MainHeader from './components/sections/MainHeader/MainHeader.jsx'
 import CoreDemoSection from './components/sections/CoreDemoSection/CoreDemoSection.jsx'
@@ -7,13 +8,14 @@ import Footer from './components/sections/Footer/Footer.jsx'
 
 
 function App() {
+    const [analysisResult, setAnalysisResult] = useState(null)
 
     return (
         <>
             <MainHeader/>
             <HeroSection/>
-            <CoreDemoSection/>
-            <AnalysisDashboard/>
+            <CoreDemoSection onAnalysisComplete={setAnalysisResult}/>
+            <AnalysisDashboard analysisResult={analysisResult}/>
             <TechnicalPipelineSection/>
             <Footer/>
 

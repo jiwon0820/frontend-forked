@@ -109,6 +109,7 @@
 html, body, #root{
     height: 100%;
     width: 100%;
+    scroll-behavior: smooth;
     scrollbar-width: none;
     &::-webkit-scrollbar{
         display: none;
@@ -124,5 +125,15 @@ body{
     width: var(--width-container);
     margin: 0 auto;
     padding: 0 2.4rem;
+}
+
+@keyframes uploadImpulse {
+    0%   { border-color: var(--color-border-white-20); background-color: var(--color-bg-white-5); }
+    50%  { border-color: var(--color-bg-positive);     background-color: var(--color-bg-positive-10); }
+    100% { border-color: var(--color-border-white-20); background-color: var(--color-bg-white-5); }
+}
+
+.upload-impulse {
+    animation: uploadImpulse 0.6s ease-in-out 3 !important;
 }
 

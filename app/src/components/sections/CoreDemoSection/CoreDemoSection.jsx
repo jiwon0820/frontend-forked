@@ -10,7 +10,7 @@ import SettingIcon from '../../../assets/images/icon_setting.png'
 import style from './CoreDemoSection.module.css'
 import SectionContainer from '../../SectionContainer/SectionContainer'
 
-export default function CoreDemoSection() {
+export default function CoreDemoSection({ onAnalysisComplete }) {
     const [videoFile, setVideoFile] = useState(null)
     const [fps, setFps] = useState(60)
     const [status, setStatus] = useState('idle') // AnalysisStatus
@@ -39,7 +39,7 @@ export default function CoreDemoSection() {
             <div className={style.contents}>
                 {/* Left column: settings panels */}
                 <div className={style.leftColumn}>
-                    <Panel icon={UploadIcon} label="Analysis Settings">
+                    <Panel icon={UploadIcon} label="Analysis Settings" id="analysisSettingsPanel" tabIndex={-1}>
                         <div className={style.panelContent}>
                             <VideoUpload file={videoFile} onFileSelect={setVideoFile} />
                             <FpsSelector value={fps} onChange={setFps} />

@@ -9,9 +9,9 @@ import style from './Panel.module.css'
  * @param {React.ReactNode} props.children - 패널 본문에 렌더링할 자식 요소.
  * @returns {JSX.Element}
  */
-export default function Panel({icon, label, children}){
+export default function Panel({icon, label, children, id, tabIndex}){
     return (
-        <div className={style.panelContainer}>
+        <div className={style.panelContainer} id={id} tabIndex={tabIndex}>
             <div className={style.panelHeader}>
                 {icon && <img 
                     src={icon}
