@@ -42,6 +42,7 @@
     font-weight: var(--font-weight-md);
     font-size: var(--font-size-sm);
     color: var(--color-text-sub);
+    transform: translateX(-4rem);
 }
 
 .nav a{

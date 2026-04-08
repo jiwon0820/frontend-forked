@@ -1,6 +1,6 @@
 import Button from '../../Button/Button';
 import styles from './MainHeader.module.css';
-import Logo from '../../../assets/images/Logo.svg'
+import Logo from '../../../assets/images/Logo_SMU.svg'
 
 
 export default function MainHeader(){
@@ -15,7 +15,7 @@ export default function MainHeader(){
                 <ul className={styles.nav}>
                     <li><a href='#coreDemo'>Core Demo</a></li>
                     <li><a href='#dataInsight'>Data Insight</a></li>
-                    <li><a href='#pipeline'>Pipeline</a></li>
+                    <li><a href='#technicalPipeline'>Pipeline</a></li>
                 </ul>
             </nav>
             <Button
@@ -23,6 +23,7 @@ export default function MainHeader(){
                 height='3.6rem'
                 label='Contact Expert'
                 fontSize='var(--font-size-sm)'
+                onClick={() => window.open('https://github.com/lhk0721', '_blank')}
             />
             
         </div>

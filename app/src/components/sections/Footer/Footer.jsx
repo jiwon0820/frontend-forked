@@ -1,5 +1,5 @@
 import style from './Footer.module.css'
-import Logo from '../../../assets/images/Logo.svg'
+import Logo from '../../../assets/images/Logo_SMU.svg'
 
 export default function Footer(){
     return(
@@ -10,7 +10,7 @@ export default function Footer(){
             />
             <p className={style.projectName}>RACK LABS</p>
             <p className={style.copyright}><small>
-                © 2024 RACKLABS. All Rights Reserved. Prototype MVP v1 Project.
+                © 2026 RACKLABS. All Rights Reserved. Prototype MVP v1 Project.
             </small></p>
         </footer>
     )
