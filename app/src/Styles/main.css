@@ -21,6 +21,7 @@
     --color-text-positive: #0D93F2;
     --color-text-plus: #00F2FF;
     --color-text-sub:     #9CA3AF;
+    --color-text-sub-2:   #D1D5DB;
     --color-text-muted:   #6B7280;
     --color-text-disabled:#4B5563;
     --color-text-link:    #93C5FD;
@@ -44,6 +45,7 @@
     --color-bg-black-20:     color-mix(in srgb, black 20%, transparent);
     --color-bg-black-30:     color-mix(in srgb, black 30%, transparent);
     --color-bg-black-40:     color-mix(in srgb, black 40%, transparent);
+    --color-bg-black-50:     color-mix(in srgb, black 50%, transparent);
     --color-bg-success-20:   color-mix(in srgb, var(--color-success) 20%, transparent);
 
     /* border stroke */
@@ -58,12 +60,13 @@
     --font-family: 'Pretendard', sans-serif;
     
     /* font size */
+    --font-size-xxm: 1rem;
     --font-size-xm: 1.2rem;
     --font-size-sm: 1.4rem;
     --font-size-md: 1.6rem;
     --font-size-lg: 1.8rem;
     --font-size-xl: 2rem;
-    --font-size-xxl: 2rem;
+    --font-size-xxl: 3.2rem;
     --font-size-display: 7.2rem;
 
     /* font weight */
