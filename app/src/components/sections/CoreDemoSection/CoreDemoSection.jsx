@@ -8,7 +8,7 @@ import SkeletonViewer from '../../SkeletonViewer/SkeletonViewer'
 import UploadIcon from '../../../assets/images/icon_ArrowUp.png'
 import SettingIcon from '../../../assets/images/icon_setting.png'
 import style from './CoreDemoSection.module.css'
-import SectionIntro from '../../SectionIntro/SectionIntro'
+import SectionContainer from '../../SectionContainer/SectionContainer'
 
 export default function CoreDemoSection() {
     const [videoFile, setVideoFile] = useState(null)
@@ -31,11 +31,11 @@ export default function CoreDemoSection() {
     }
 
     return (
-        <section id="coreDemo" className={style.sectionContainer}>
-            <SectionIntro
-                heading='CORE DEMO'
-                description='Upload your video and instantly visualize pose estimation with real-time skeleton overlay and frame-by-frame analysis.'
-            />
+        <SectionContainer
+            id="coreDemo"
+            heading='CORE DEMO'
+            description='Upload your video and instantly visualize pose estimation with real-time skeleton overlay and frame-by-frame analysis.'
+        >
             <div className={style.contents}>
                 {/* Left column: settings panels */}
                 <div className={style.leftColumn}>
@@ -68,6 +68,6 @@ export default function CoreDemoSection() {
                     />
                 </div>
             </div>
-        </section>
+        </SectionContainer>
     )
 }
