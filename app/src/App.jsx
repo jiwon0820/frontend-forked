@@ -5,6 +5,7 @@ import LiveSyncSection from './components/sections/LiveSyncSection/LiveSyncSecti
 import AnalysisDashboard from './components/sections/AnalysisDashboardSection/AnalysisDashboard.jsx'
 import TechnicalPipelineSection from './components/sections/TechnicalPipelineSection/TechnicalPipelineSection.jsx'
 import Footer from './components/sections/Footer/Footer.jsx'
+import ScrollToTopButton from './components/ScrollToTopButton/ScrollToTopButton.jsx'
 import { useAnalysisSession } from './features/analysis-session/useAnalysisSession.js'
 
 function App() {
@@ -19,6 +20,7 @@ function App() {
             <AnalysisDashboard analysisSession={analysisSession}/>
             <TechnicalPipelineSection/>
             <Footer/>
+            <ScrollToTopButton/>
         </>
     )
 }
